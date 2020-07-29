@@ -1,78 +1,84 @@
+import { GET_PRODUCTS_PENDING , GET_PRODUCTS_FULFILLED, GET_PRODUCTS_REJECTED, GET_PRODUCT_PENDING , GET_PRODUCT_FULFILLED, GET_PRODUCT_REJECTED, UPDATE_PRODUCT_PENDING, UPDATE_PRODUCT_FULFILLED, UPDATE_PRODUCT_REJECTED } from '../actions/productsAction';
+
+
 const initialState={
-    productList:[
-        {
-            id:1,
-            name:"Product 1",
-            price:10,
-            available:1,
-            description:"Product 1 description"
-        },
-        {
-            id:2,
-            name:"Product 2",
-            price:20,
-            available:0,
-            description:"Product 2 description"
-        },
-        {
-            id:3,
-            name:"Product 3",
-            price:30,
-            available:1,
-            description:"Product 3 description"
-        },
-        {
-            id:4,
-            name:"Product 4",
-            price:40,
-            available:0,
-            description:"Product 4 description"
-        },
-        {
-            id:5,
-            name:"Product 5",
-            price:50,
-            available:1,
-            description:"Product 5 description"
-        },
-        {
-            id:6,
-            name:"Product 6",
-            price:60,
-            available:1,
-            description:"Product 6 description"
-        },
-        {
-            id:7,
-            name:"Product 7",
-            price:70,
-            available:0,
-            description:"Product 7 description"
-        },
-        {
-            id:8,
-            name:"Product 8",
-            price:80,
-            available:1,
-            description:"Product 8 description"
-        },
-        {
-            id:9,
-            name:"Product 9",
-            price:90,
-            available:0,
-            description:"Product 9 description"
-        },
-        {
-            id:10,
-            name:"Product 10",
-            price:100,
-            available:1,
-            description:"Product 10 description"
-        },
-    ]
+    productsList:[],
+    loading:false,
+    error:false,
+    product:{},
+    updateStatus:null
 }
 
 export default (state=initialState,action)=>{
-    return state;
+    switch(action.type){
+        // get all products
+        case GET_PRODUCTS_PENDING:
+            return {
+                ...state,
+                loading:true,
+                updateStatus:null
+            }
+        case GET_PRODUCTS_FULFILLED:
+            let products=[],error=false;
+            if(action.payload.status===200){
+                products=action.payload.data;
+            }
+            else{
+                error=true;
+            }
+            return {
+                ...state,
+                loading:false,
+                productsList:products,
+                error:error
+            }
+        case GET_PRODUCTS_REJECTED:
+            return {
+                ...state,
+                loading:false
+            }
+        // get product by id
+        case GET_PRODUCT_PENDING:
+            return {
+                ...state,
+                loading:true
+            }
+        case GET_PRODUCT_FULFILLED:
+            let product={},productError=false;
+            if(action.payload.status===200){
+                product=action.payload.data;
+            }
+            else{
+                productError=true;
+            }
+            return {
+                ...state,
+                loading:false,
+                product:product,
+                error:productError
+            }
+        case GET_PRODUCT_REJECTED:
+            return {
+                ...state,
+                loading:false
+            }
+        // update product
+        case UPDATE_PRODUCT_PENDING:
+            return {
+                ...state,
+                updateStatus:null
+            }
+        case UPDATE_PRODUCT_FULFILLED:
+            return {
+                ...state,
+                updateStatus:action.payload.status===200 ? 200 : 0
+            }
+        case UPDATE_PRODUCT_REJECTED:
+            return {
+                ...state,
+                updateStatus:null
+            }
+        default:
+            return state;
+    }
 }

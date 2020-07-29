@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import swal from 'sweetalert';
+import { connect } from 'react-redux';
+import { getUser, updateUser } from  '../actions/userAction';
+import { Redirect } from 'react-router-dom';
 
 class ProfileForm extends Component {
     state={
         fullname:'',
-        email:'',
-        title:''
+        username:'',
+        title:'',
+        password:'',
+        goProducts:false
     }
 
     onChange=(event)=>{
@@ -17,12 +22,39 @@ class ProfileForm extends Component {
 
     onSubmit=(event)=>{
         if(this.state.fullname!=='' && this.state.title!==''){
-            //  update
+            this.props.updateUser(this.state.username,this.state.fullname,this.state.title,this.state.password);
         }
         else{
             swal("Oops", "Fill in all blanks", "warning");
         }
         event.preventDefault();
+    }
+
+    UNSAFE_componentWillMount(){
+        this.props.getUser(localStorage.getItem('username'));
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps,nextState){
+        this.setState({
+            fullname:nextProps.user.fullname,
+            username:nextProps.user.username,
+            title:nextProps.user.title,
+            password:nextProps.user.password
+        });
+        // update basarili
+        if(nextProps.user.status===200){
+            swal("Good job!", "Update succeeded.\n You will redirect to products page.", "success");
+            setTimeout(()=>{
+                swal.close();
+                this.setState({
+                    goProducts:true
+                });    
+            },1000);
+        }
+        // update basarisiz
+        if(nextProps.user.status===0){
+            swal("Error", "Something went wrong", "error");
+        }
     }
 
     render() {
@@ -43,7 +75,7 @@ class ProfileForm extends Component {
                             <h5>Email</h5>
                         </div>
                         <div className="col-md-6 col-12">
-                            <input type="email" className="form-control" disabled  name='email' value={this.state.email} />
+                            <input type="email" className="form-control" disabled  name='username' value={this.state.username} />
                         </div>
                     </div>
                     <div className='row editInput'>
@@ -62,9 +94,23 @@ class ProfileForm extends Component {
                         </div>
                     </div>
                 </form>
+                {
+                    this.state.goProducts && <Redirect to='/products' />
+                }
             </div>
         )
     }
 }
 
-export default ProfileForm;
+const mapStateToProps=(state,props)=>{
+    return {
+        user:state.user
+    };
+}
+
+const mapDispatchToProps={
+    getUser:getUser,
+    updateUser:updateUser
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProfileForm);

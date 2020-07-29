@@ -89,6 +89,11 @@ html, body {
     color:red;
 }
 
+.spinner-border{
+    display: inherit;
+    margin:5em auto;
+}
+
 @media(max-width:768px){
     .leftBar{
         padding:1em;

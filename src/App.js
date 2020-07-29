@@ -25,28 +25,20 @@ class App extends Component {
   render() {
     return (
       <div className='appContainer'>
-        <Switch>
-          <Route path="/" exact strict component={LoginPage} />
-          <Route path="/products" exact strict component={ProductsPage} />
-          <Route path="/products/:id" exact strict component={ProductDetailPage} />
-          <Route path="/profile" exact strict component={ProfilePage} />
-          <Route component={ErrorPage} />
-        </Switch>
-        {/*
         {
-          this.state.isLoggedIn ? 
-            <Switch>
+          localStorage.getItem('jwtToken')!==null ? 
+          <Switch>
             <Route path="/" exact strict component={LoginPage} />
             <Route path="/products" exact strict component={ProductsPage} />
             <Route path="/products/:id" exact strict component={ProductDetailPage} />
             <Route path="/profile" exact strict component={ProfilePage} />
             <Route component={ErrorPage} />
-          </Switch> :  
-            <Switch>
+          </Switch> :
+          <Switch>
+            <Route path="/" exact strict component={LoginPage} />
             <Route component={LoginPage} />
           </Switch>
         }
-      */}
       </div>
     )
   }

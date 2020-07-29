@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
 import { connect } from 'react-redux';
+import { logIn } from '../actions/userAction';
 import { Redirect } from 'react-router-dom';
 
 class LoginForm extends Component {
     state={
         username:'',
         password:'',
-        isError:false,
-        isLoggedIn:false
+    }
+
+    constructor(){
+        super();
+        localStorage.clear();
     }
 
     onChange=(event)=>{
@@ -34,11 +38,6 @@ class LoginForm extends Component {
                 isError:nextProps.user.error
             });
         }
-        if(nextProps.user.token!==null){
-            this.setState({
-                isLoggedIn:true
-            });
-        }
     }
 
     render() {
@@ -62,7 +61,7 @@ class LoginForm extends Component {
                     </form>
                 </div>
                 {
-                    this.state.isLoggedIn && <Redirect to='/products' />
+                    localStorage.getItem('jwtToken')!==null && <Redirect to='/products' />
                 }
             </div>
         )
@@ -75,4 +74,8 @@ const mapStateToProps=(state,props)=>{
     }
 }
 
-export default connect(mapStateToProps)(LoginForm);
+const mapDispatchToProps={
+    logIn:logIn
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginForm);

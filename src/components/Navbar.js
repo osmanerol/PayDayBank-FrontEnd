@@ -4,16 +4,20 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class Navbar extends Component {
+    logOut=()=>{
+        localStorage.clear();
+    }
+
     render() {
         return (
             <div>
                 <nav className='navbar navbar-dark bg-dark'>
-                    <Link className='navbar-brand'  to='/'>
+                    <Link className='navbar-brand'  to={localStorage.getItem('jwtToken')!==null ? '/products' : '/'}>
                         PayDay Bank
                     </Link>
                     {
-                        this.props.user.isLoggedIn &&
-                        <Link className='text-light text-decoration-none' to='/'>
+                        localStorage.getItem('jwtToken') && 
+                        <Link className='text-light text-decoration-none' onClick={this.logOut} to='/'>
                             <span className='mr-2' id='signOutText'>Log-out</span> <i className="fa fa-sign-out fa-lg" aria-hidden="true"></i>
                         </Link>
                     }

@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-//  actions
-import { logIn } from '../../actions/userAction';
 
 //  components
 import Navbar from '../Navbar';
@@ -14,21 +10,11 @@ class LoginPage extends Component {
         return (
             <div>
                 <Navbar />
-                <LoginForm logIn={this.props.logIn}  />
+                <LoginForm />
                 <Footer />
             </div>
         )
     }
 }
 
-const mapSatateToProps=(state,props)=>{
-    return {
-        user:state.user
-    };
-}
-
-const mapDispatchToProps={
-    logIn:logIn
-}
-
-export default connect(mapSatateToProps,mapDispatchToProps)(LoginPage);
+export default LoginPage;
