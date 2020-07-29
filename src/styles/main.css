@@ -1,0 +1,101 @@
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@1,800&display=swap');
+
+html, body {
+    height: 100%;
+}
+  
+#root {
+    height: 100%;
+}
+
+.appContainer{
+    height: 100%;
+}
+
+.row{
+    width: 100%;
+    margin:0
+}
+
+#errorContainer{
+    text-align: center;
+    padding:10em 1em 0;
+}
+
+#errorText{
+    font-size: 2em;
+    margin-top:1em;
+}
+
+.navbar{
+    padding:1em;
+}
+
+.navbar-brand, #signOutText{
+    font-family: 'Mulish', sans-serif;
+}
+
+.logInTitle{
+    font-family: 'Mulish', sans-serif;
+    font-size: 1.5em;
+}
+
+.page-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.page-footer p{
+    margin:0.5em;
+}
+
+.leftBar{
+    padding:1em 1em 0.5em 1em;
+}
+
+.leftBarButton{
+    padding:1em;
+    font-family: 'Mulish', sans-serif;
+}
+
+.subContainer{
+    padding:1em;
+}
+
+.editInput{
+    margin:1em 0;
+}
+
+.editForm{
+    padding-top: 1em;
+}
+
+.editForm .col-12{
+    padding:0;
+}
+
+.fa-check{
+    color:green;
+}
+
+.fa-times{
+    color:red;
+}
+
+#errorTitle{
+    color:red;
+}
+
+@media(max-width:768px){
+    .leftBar{
+        padding:1em;
+    }
+
+    .leftBarButton{
+        padding:0.5em;
+        font-family: 'Mulish', sans-serif;
+    }
+}
